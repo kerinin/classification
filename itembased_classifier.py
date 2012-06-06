@@ -46,13 +46,14 @@ for i in arange(train_array.shape[1]):
   results += [[percent_true_test, performance_test]]
 
 data = np.array(results).T
+avg = data[1].sum() / 100
+print "Aggregate peformance: %s%%" % avg
 
 hist(data[1])
 plot([0,100],[0,100], 'k--')
 plot(data[1], data[0], 'o')
 xlabel('Classifier Accuracy')
 ylabel('Classifier % True')
-
-print data[1].sum()
+title('Itembased Classifier (%s%% avg accuracy)' % avg)
 
 show()
