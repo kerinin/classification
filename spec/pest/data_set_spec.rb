@@ -84,13 +84,6 @@ describe Pest::DataSet do
     end
   end
 
-  describe "destroy" do
-    # Required
-    it "raises an error if called from module" do
-      lambda { @instance.destroy }.should raise_error(NotImplementedError)
-    end
-  end
-
   describe "length" do
     # Required
     it "raises an error if called from module" do
