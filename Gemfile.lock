@@ -1,16 +1,27 @@
+GIT
+  remote: git://github.com/amarburg/ruby_gnuplot.git
+  revision: 6d76497c876d077e9d85a23d83a1f09c0558614a
+  specs:
+    gnuplot (2.3.6)
+
 GEM
   remote: http://rubygems.org/
   specs:
-    gnuplot (2.4.1)
+    coderay (1.0.6)
     gsl (1.14.7)
       narray (>= 0.5.9)
+    method_source (0.7.1)
     narray (0.6.0.1)
-    rake (0.9.2.2)
+    pry (0.9.9.6)
+      coderay (~> 1.0.5)
+      method_source (~> 0.7.1)
+      slop (>= 2.4.4, < 3)
+    slop (2.4.4)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  gnuplot
+  gnuplot!
   gsl
-  rake
+  pry
