@@ -1,4 +1,4 @@
-module Classificator
+module Pest
   VERSION = "0.0.1"
 
   def self.version

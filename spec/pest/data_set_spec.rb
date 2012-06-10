@@ -1,29 +1,61 @@
 require 'spec_helper'
 
+class TestClass
+  include Pest::DataSet
+end
+
 describe Pest::DataSet do
-  describe "new" do
-  end
+  before(:each) { @instance = TestClass.new }
 
-  describe "from_csv" do
-  end
+  describe Pest::DataSet::ClassMethods do
+    before(:each) { @class = TestClass }
 
-  describe "from_hash" do
-  end
+    describe "from" do
+      it "calls checks for translator with passed class"
+      it "passes to translator if found"
+      it "calls to_hash if unrecognized class"
+      it "passes to translator after converting to hash"
+    end
 
-  describe "to_csv" do
-  end
-
-  describe "to_hash" do
+    describe "translators" do
+      # Required
+      it "raises an error if called from module"
+    end
+    
+    describe "from_file" do
+      # Required
+      it "raises an error if called from module"
+    end
+    
+    describe "from_hash" do
+      # Required
+      it "raises an error if called from module"
+    end
   end
 
   describe "variables" do
+    it "defaults to an empty list"
   end
 
-  describe "variables=" do
+  describe "to_hash" do
+    # Required
+    it "raises an error if called from module"
+  end
+
+  describe "save" do
+    # Required
+    it "raises an error if called from module"
+  end
+
+  describe "destroy" do
+    # Required
+    it "raises an error if called from module"
   end
 
   describe "length" do
+    # Required
+    it "raises an error if called from module"
   end
 
-  # Iterable interface?
+  # Enumerable interface?
 end
