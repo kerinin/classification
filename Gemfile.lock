@@ -1,13 +1,8 @@
-GIT
-  remote: git://github.com/amarburg/ruby_gnuplot.git
-  revision: 6d76497c876d077e9d85a23d83a1f09c0558614a
-  specs:
-    gnuplot (2.3.6)
-
 GEM
   remote: http://rubygems.org/
   specs:
     coderay (1.0.6)
+    diff-lcs (1.1.3)
     gsl (1.14.7)
       narray (>= 0.5.9)
     method_source (0.7.1)
@@ -16,12 +11,20 @@ GEM
       coderay (~> 1.0.5)
       method_source (~> 0.7.1)
       slop (>= 2.4.4, < 3)
+    rspec (2.10.0)
+      rspec-core (~> 2.10.0)
+      rspec-expectations (~> 2.10.0)
+      rspec-mocks (~> 2.10.0)
+    rspec-core (2.10.0)
+    rspec-expectations (2.10.0)
+      diff-lcs (~> 1.1.3)
+    rspec-mocks (2.10.1)
     slop (2.4.4)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  gnuplot!
   gsl
   pry
+  rspec
