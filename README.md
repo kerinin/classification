@@ -70,6 +70,8 @@ e.p(:foo).given(:bar).in(test)                        # Estimate the conditional
 e.p(:foo, :bar).in(test)                              # Estimate the joint probablity foo AND bar
 e.p(:foo, :bar).given(:baz, :qux).in(test)            # More complex joint & conditional probabilities
 e.p(:foo => 4, :bar => 2).given(:baz => 0)            # Single prediction (implicitly creates dataset)
+e.p(:foo).given(:bar).cache                           # Builds and persists the model for 'foo|bar'
+e.p(:foo).given(:bar).cache('path.csv')               # Persist to a specific path (defaults to tmp)
 
 # Estimating Cumulative & Interval Probability (Discrete & Continuous only)
 e.probability(:foo).greater_than(:bar).in(test)
