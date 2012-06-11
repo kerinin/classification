@@ -1,3 +1,21 @@
+# Pest, a framework for Probability Estimation
+
+Pest provides a unified framework for interacting with different probability
+estimation models.  
+
+* Pest tries to be agnostic about the underlying data data structures, 
+so changing libraries (GSL -> Hadoop) is as simple as using a different data source.
+* Pest is designed to create estimators using subsets of larger data sources, and
+transparently constructs estimators to facilitate dynamic querying
+* Implementing custom estimation models is easy, and Pest implements some models
+
+Pest abstracts common statstical operations including:
+
+* Marginal, Joint and Conditional point probability
+* Interval and Cumulative probability
+* Entropy, Cross Entropy, and Mutual Information
+* Mean, Median, Mode, etc
+
 
 ## Ruby Install
     brew install gnuplot  # This may take awhile...
@@ -10,48 +28,56 @@
 
 ## API
 
-All data transfer is file-based.  Input files are assumed to contain sets
-of observations, but no assumption is made as to file type. 
-
 ``` ruby
-o = Distribution::DataSet.from_csv 'filename.csv'   # Creates a new set of observations
-o.variables                                         # => array of Variable instances detected in observation set
-o.v                                                 # alias of Observations#variables
+# Creating Datasets
+test = Pest::DataSet::Hash.new hash                   # Creates a Hash dataset of observations from a hash
+test = Pest::DataSet::Hash.new file                   # Creates a Hash dataset of observations from an IO (Marshalled) 
+train = Pest::DataSet::GSL.new file                   # Creates a GSL dataset from and IO instance
 
-Distribution::Discrete::Category                    # Taking values from an unordered set ('apple', 'pear', 'zebra')
-Distribution::Discrete::Mass                        # Taking values in a finite, ordered, metric set (integers between 0 and 10)
-Distribution::Continuous::Density                   # Taking values in an ordered, metric set (real numbers between 0 and 10)
+# DataSet Variables
+test.variables                                        # hash of Variable instances detected in observation set
+test.v                                                # alias of 'variables'
+test.v[:foo]                                          # a specific variable
+test.v[:foo] = another_variable                       # explicit declaration
 
-pdf = Distribution::Discrete::Gaussian.new(o)       # Creates a Gaussian PDF estimator from observations
-pdf.v                                               # inherited from observations
-pdf.p(pdf.v.first == 1)                             # probability of the first variable taking a value 
-pdf.p(pdf.v.first).given(pdf.v.last == 1)           # conditional probability
-pdf.p(pdf.v.first == 1, pdf.v.last == 2)            # joint probability
-pdf.p(pdf.v.first).given(pdf.v.last == 1)           # probability of all known values of variable
+# Creating Estimators
+e = Pest::Estimator::Set::Multinomial.new(test)       # Creates a multinomial estimator for set o
+e = Pest::Estimator::Discrete::Gaussian.new(file)     # Creating an estimator with the DataSet API
 
-pdf.v.first.h                                       # Entropy of variable
-pdf.v.first.h.given(pdf.v.last == 1)                # Entropy of conditional variable
-pdf.v.first.h.given(pdf.v.last.h)                   # Conditional Entropy
-pdf.v.first.cross_entropy(pdf.v.last)               # Cross entropy
-pdf.v.first.mutual_information(pdf.v.last)          # Mutual Information
+# Descriptive Statistical Properties
+e.mode(:foo)                                          # Mode
+e.mean(:foo)                                          # Mean (discrete & continuous only)
+e.median(:foo)                                        # Median (discrete & continuous only)
+# quantile?
+# variance?
+# deviation?
 
-pdf.h                                               # Returns hash containing all variables' entropy
-pdf.cross_entropy(pdf.v.first)                      # Returns hash of all variables cross vs variable (excluding that variable)
-pdf.mutual_information(pdf.v.first)                 # Same as above
+# Estimating Entropy (Set & Discrete only)
+e.entropy(:foo)                                       # Entropy of 'foo'
+e.h(:foo, :bar)                                       # Joint entropy of 'foo' AND 'bar'
+e.h(:foo).given(:bar)                                 # Cross entropy of 'foo' : 'bar'
+e.mutual_information(:foo, :bar)                      # Mutual information of 'foo' and 'bar'
+e.i(:foo, :bar)                                       # Alias
+
+# Estimating Point Probability (Set & Discrete only)
+e.probability(o.variables[:foo])                      # (Set/Discrete only) Estimate the probability of all values of 'foo'
+e.p(:foo)                                             # Same as above, tries to find a variable named 'foo'
+e.p(:foo).in(test)                                    # Estimate the probability of values in dataset 'test'
+e.p(:foo).given(:bar).in(test)                        # Estimate the conditional foo | bar for the values in 'test'
+e.p(:foo, :bar).in(test)                              # Estimate the joint probablity foo AND bar
+e.p(:foo, :bar).given(:baz, :qux).in(test)            # More complex joint & conditional probabilities
+e.p(:foo => 4, :bar => 2).given(:baz => 0)            # Single prediction (implicitly creates dataset)
+
+# Estimating Cumulative & Interval Probability (Discrete & Continuous only)
+e.probability(:foo).greater_than(:bar).in(test)
+e.p(:foo).greater_than(:bar).less_than(:baz).in(test)
+e.p(:foo).gt(:bar).lt(:baz).given(:qux).in(test)
 ```
 
-I think we want to define base classes for discrete and continuous distributions.
-asking for the conditional probability without an argument makes sense for 
-discrete distributions (return all the things!), but not for continuous. Some of the 
-information metrics are also undefined for cts variables
-
-I think this should all be lazily executed, but that's really an implementation
-detail.
-
-I'm wondering if the 'file-centric' bit should extend to conditional values, ie you
-can't pass `pdf.v.last == 1`, you have to pass a set of observations that defines
-that in a file.
-
+Do we want variable equality to be name-based?  It may make more sense to allow
+variables named differently in different data sets to be equivalent. And how the
+fuck do we handle variable type?  I'm almost thinking we don't, and let the actual
+estimators take care of type casting
 
 ## Python Install
 
