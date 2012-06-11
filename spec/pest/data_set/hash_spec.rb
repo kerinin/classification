@@ -42,7 +42,6 @@ describe Pest::DataSet::Hash do
       end
 
       it "generates variables" do
-        pending "Variable class"
         @class.from_file('foo').variables.first.should be_a(Pest::Variable)
       end
     end
