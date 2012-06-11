@@ -42,7 +42,7 @@ describe Pest::DataSet::Hash do
       end
 
       it "generates variables" do
-        @class.from_file('foo').variables.first.should be_a(Pest::Variable)
+        @class.from_file('foo').variables[:foo].should be_a(Pest::Variable)
       end
     end
   end

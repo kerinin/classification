@@ -23,8 +23,9 @@ class Pest::DataSet::Hash
 
   def initialize(hash)
     @hash = hash
-    @variables = hash.keys().map do |name|
-      Pest::Variable.new(:name => name)
+    @variables = {}
+    hash.keys().each do |name|
+      @variables[name] = Pest::Variable.new(:name => name)
     end
   end
 

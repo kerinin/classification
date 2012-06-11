@@ -4,7 +4,7 @@ module Pest::DataSet
   end
 
   def variables
-    @variables ||= []
+    @variables ||= {}
   end
 
   def to_hash(*args)

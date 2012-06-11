@@ -66,7 +66,7 @@ describe Pest::DataSet do
 
   describe "variables" do
     it "defaults to an empty list" do
-      @instance.variables.should == []
+      @instance.variables.should == {}
     end
   end
 
