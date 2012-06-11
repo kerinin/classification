@@ -10,4 +10,12 @@ describe Pest::Estimator::Continuous::Parzen do
       @instance.estimate_class.should == Pest::Estimate::Continuous::Parzen
     end
   end
+
+  describe Distribution do
+    describe "cache" do
+    end
+
+    describe "evaluate" do
+    end
+  end
 end

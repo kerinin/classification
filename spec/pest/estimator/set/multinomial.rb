@@ -10,4 +10,12 @@ describe Pest::Estimator::Set::Multinomial do
       @instance.estimate_class.should == Pest::Estimate::Set::Multinomial
     end
   end
+
+  describe Distribution do
+    describe "cache" do
+    end
+
+    describe "evaluate" do
+    end
+  end
 end

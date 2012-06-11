@@ -16,4 +16,11 @@ describe Pest::Estimator::Continuous do
   end
 
   # Etc...
+
+  describe Distribution do
+    it "inherits from Distribution"
+
+    describe "cumulative_probability" do
+    end
+  end
 end

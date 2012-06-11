@@ -13,4 +13,14 @@ describe Pest::Estimator::Discrete do
   end
 
   # etc...
+
+  describe Distribution do
+    it "inherits from Distribution"
+
+    describe "probability" do
+    end
+
+    describe "entropy" do
+    end
+  end
 end

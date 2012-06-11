@@ -10,4 +10,12 @@ describe Pest::Estimator::Set::Simple do
       @instance.estimate_class.should == Pest::Estimate::Set::Simple
     end
   end
+
+  describe Distribution do
+    describe "cache" do
+    end
+
+    describe "evaluate" do
+    end
+  end
 end

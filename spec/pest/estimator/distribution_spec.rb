@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Pest::Estimate do
+describe Pest::Distribution do
   describe "variables" do
   end
 

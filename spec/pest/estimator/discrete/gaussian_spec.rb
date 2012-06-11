@@ -10,4 +10,12 @@ describe Pest::Estimator::Discrete::Gaussian do
       @instance.estimate_class.should == Pest::Estimate::Discrete::Gaussian
     end
   end
+
+  describe Distribution do
+    describe "cache" do
+    end
+
+    describe "evaluate" do
+    end
+  end
 end

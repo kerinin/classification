@@ -16,4 +16,14 @@ describe Pest::Estimator::Set do
 
   describe "mode" do
   end
+
+  describe Distribution do
+    it "inherits from Distribution"
+
+    describe "probability" do
+    end
+    
+    describe "entropy" do
+    end
+  end
 end
