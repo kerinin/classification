@@ -35,4 +35,7 @@ describe Pest::Estimator do
       lambda { @instance.estimates[@v1, @v3] }.should raise_error(ArgumentError)
     end
   end
+
+  describe Distribution do
+  end
 end
