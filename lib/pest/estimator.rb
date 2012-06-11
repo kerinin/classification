@@ -3,6 +3,15 @@ module Pest::Estimator
     @estimates ||= EstimateList.new(self)
   end
 
+  class Distribution
+    attr_reader :variables
+
+    def initialize(estimator, variables)
+      @estimator = estimator
+      @variables = variables
+    end
+  end
+
   class EstimateList < Hash
     def initialize(estimator)
       @estimator = estimator
@@ -26,7 +35,7 @@ module Pest::Estimator
     def [](*args)
       set = parse_args(args)
       unless has_key? set
-        self[set] = Pest::Estimate.new(self, set)
+        self[set] = Distribution.new(self, set)
       end
       super(set)
     end

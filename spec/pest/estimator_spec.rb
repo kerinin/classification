@@ -16,7 +16,7 @@ describe Pest::Estimator do
     end
 
     it "accepts a set of variables" do
-      @instance.estimates[@v1, @v2].should be_a(Pest::Distribution)
+      @instance.estimates[@v1, @v2].should be_a(Pest::Estimator::Distribution)
     end
 
     it "returns an estimator for the passed variables" do
