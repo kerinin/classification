@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Pest::Estimator::DiscreteEstimator do
+describe Pest::Estimator::Discrete do
   it "inherits from SetEstimator"
 
   describe "mean" do

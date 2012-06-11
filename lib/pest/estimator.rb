@@ -1,4 +1,4 @@
-class Pest::Estimator
+module Pest::Estimator 
   def estimates
     @estimates ||= EstimateList.new(self)
   end

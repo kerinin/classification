@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Pest::Estimate::DiscreteEstimate do
+describe Pest::Estimate::Discrete do
   it "inherits from Estimate"
 
   describe "probability" do

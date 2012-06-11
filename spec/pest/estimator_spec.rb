@@ -1,5 +1,9 @@
 require 'spec_helper'
 
+class TestClass
+  include Pest::Estimator
+end
+
 describe Pest::Estimator do
   describe "estimates" do
     before(:each) do
@@ -7,7 +11,7 @@ describe Pest::Estimator do
       @v2 = Pest::Variable.new(:name => :bar)
       @v3 = Pest::Variable.new(:name => :baz)
 
-      @instance = Pest::Estimator.new
+      @instance = TestClass.new
       @instance.stub(:variables).and_return({:foo => @v1, :bar => @v2})
     end
 

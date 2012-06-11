@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Pest::Estimator::ContinuousEstimator do
+describe Pest::Estimator::Continuous do
   it "inherits from DataSet"
   it "inherits from Estimator"
 

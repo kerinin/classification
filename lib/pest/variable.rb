@@ -1,7 +1,4 @@
-require 'uuidtools'
-
 class Pest::Variable
-
   def self.deserialize(string)
     if string.chomp =~ /^([^\:]+)\:(\w+)\:(\w{8}-\w{4}-\w{4}-\w{4}-\w{12})$/
       new :name => $1, :type => Kernel.const_get($2), :uuid => $3

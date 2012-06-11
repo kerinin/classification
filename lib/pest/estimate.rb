@@ -1,4 +1,4 @@
-class Pest::Estimate
+module Pest::Estimate
   attr_reader :variables
 
   def initialize(estimator, variables)

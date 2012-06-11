@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Pest::Estimator::SetEstimator do
+describe Pest::Estimator::Set do
   it "inherits from DataSet"
   it "inherits from Estimator"
 
