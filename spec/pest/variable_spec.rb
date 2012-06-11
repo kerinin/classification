@@ -59,6 +59,10 @@ describe Pest::Variable do
     it "returns false if not a Variable instance" do
       @one.should_not == 'hello'
     end
+
+    it "works for sets" do
+      [@one].to_set.should == [@two].to_set
+    end
   end
 
   describe "self.deserialize" do

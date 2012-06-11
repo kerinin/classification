@@ -23,7 +23,12 @@ class Pest::Variable
   end
   alias :serialize :identifier
 
+  def hash
+    identifier.hash
+  end
+
   def ==(other)
     other.kind_of?(self.class) and identifier == other.identifier
   end
+  alias :eql? :==
 end
