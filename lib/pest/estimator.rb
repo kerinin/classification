@@ -3,15 +3,6 @@ module Pest::Estimator
     @distributions ||= DistributionList.new(self)
   end
 
-  class Distribution
-    attr_reader :variables
-
-    def initialize(estimator, variables)
-      @estimator = estimator
-      @variables = variables
-    end
-  end
-
   def to_variable(arg)
     variable = case arg.class.name
     when 'Pest::Variable'
@@ -21,6 +12,15 @@ module Pest::Estimator
     end
     raise ArgumentError unless variables.values.include?(variable)
     variable
+  end
+
+  class Distribution
+    attr_reader :variables
+
+    def initialize(estimator, variables)
+      @estimator = estimator
+      @variables = variables
+    end
   end
 
   class DistributionList < Hash
