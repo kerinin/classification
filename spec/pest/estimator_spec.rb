@@ -16,26 +16,33 @@ describe Pest::Estimator do
     end
 
     it "accepts a set of variables" do
-      @instance.estimates[@v1, @v2].should be_a(Pest::Estimator::Distribution)
+      @instance.distributions[@v1, @v2].should be_a(Pest::Estimator::Distribution)
     end
 
     it "returns an estimator for the passed variables" do
-      @instance.estimates[@v1, @v2].variables.should == [@v1, @v2].to_set
+      @instance.distributions[@v1, @v2].variables.should == [@v1, @v2].to_set
     end
 
     it "returns an estimator for the passed strings" do
-      @instance.estimates[:foo, :bar].variables.should == [@v1, @v2].to_set
+      @instance.distributions[:foo, :bar].variables.should == [@v1, @v2].to_set
     end
 
     it "is variable order agnostic" do
-      @instance.estimates[@v1, @v2].should == @instance.estimates[@v2, @v1]
+      @instance.distributions[@v1, @v2].should == @instance.distributions[@v2, @v1]
     end
 
     it "fails if a set variable isn't defined" do
-      lambda { @instance.estimates[@v1, @v3] }.should raise_error(ArgumentError)
+      lambda { @instance.distributions[@v1, @v3] }.should raise_error(ArgumentError)
     end
   end
 
-  describe Distribution do
+  describe Pest::Estimator::Distribution do
+    describe "cache_model" do
+      it "raises no implemented"
+    end
+
+    describe "probability" do
+      it "raises no implemented"
+    end
   end
 end

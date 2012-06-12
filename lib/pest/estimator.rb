@@ -1,6 +1,6 @@
 module Pest::Estimator 
-  def estimates
-    @estimates ||= EstimateList.new(self)
+  def distributions
+    @distributions ||= DistributionList.new(self)
   end
 
   class Distribution
@@ -12,24 +12,24 @@ module Pest::Estimator
     end
   end
 
-  class EstimateList < Hash
+  def to_variable(arg)
+    variable = case arg.class.name
+    when 'Pest::Variable'
+      arg
+    when 'String', 'Symbol'
+      variables[arg] || Pest::Variable.new(:name => arg)
+    end
+    raise ArgumentError unless variables.values.include?(variable)
+    variable
+  end
+
+  class DistributionList < Hash
     def initialize(estimator)
       @estimator = estimator
     end
 
     def parse_args(args)
-      Array(args).flatten.map {|arg| to_variable(arg) }.to_set
-    end
-
-    def to_variable(arg)
-      variable = case arg.class.name
-      when 'Pest::Variable'
-        arg
-      when 'String', 'Symbol'
-        @estimator.variables[arg] || Pest::Variable.new(:name => arg)
-      end
-      raise ArgumentError unless @estimator.variables.values.include?(variable)
-      variable
+      Array(args).flatten.map {|arg| @estimator.to_variable(arg) }.to_set
     end
 
     def [](*args)

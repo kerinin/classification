@@ -1,7 +1,6 @@
 # require 'spec_helper'
 # 
 # describe Pest::Estimator::Continuous do
-#   it "inherits from DataSet"
 #   it "inherits from Estimator"
 # 
 #   describe "cumulative_probability" do

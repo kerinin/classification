@@ -5,10 +5,15 @@ require 'uuidtools'
 
 require "pest/version"
 require "pest/variable"
+
+require "pest/function/probability"
+require "pest/function/entropy"
+
 require "pest/data_set"
-require "pest/estimator"
-require "pest/estimate"
 require "pest/data_set/hash"
+
+require "pest/estimator"
+require "pest/estimator/set"
 
 module Pest
 end
