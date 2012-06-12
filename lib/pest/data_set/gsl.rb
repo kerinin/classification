@@ -1,4 +1,6 @@
-class Pest::DataSet::GSL
+require 'gsl'
+
+class Pest::DataSet::GSL < GSL::Matrix
   include Pest::DataSet
 
   def self.translators
@@ -14,6 +16,7 @@ class Pest::DataSet::GSL
   end
 
   def self.from_file(file)
+    self.fread(file)
   end
 
   def to_hash
