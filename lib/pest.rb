@@ -11,6 +11,7 @@ require "pest/function/entropy"
 
 require "pest/data_set"
 require "pest/data_set/hash"
+require "pest/data_set/gsl"
 
 require "pest/estimator"
 require "pest/estimator/set"

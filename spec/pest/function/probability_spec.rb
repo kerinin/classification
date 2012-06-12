@@ -76,6 +76,12 @@ describe Pest::Function::Probability do
       it "raises error if existing data source"
     end
 
+    describe "cache_model" do
+      it "caches event distribution"
+      it "caches givens distribution"
+      it "passes string argument to distributions"
+    end
+
     describe "evaluate" do
       it "generates dataset if not specified"
 
