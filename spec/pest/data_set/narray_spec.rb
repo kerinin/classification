@@ -66,7 +66,7 @@ describe Pest::DataSet::NArray do
     end
 
     it "sets keys" do
-      @instance.to_hash.keys.should == @instance.variables
+      @instance.to_hash.keys.should == @instance.variables.values
     end
 
     it "sets values" do

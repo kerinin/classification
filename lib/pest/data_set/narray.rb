@@ -40,7 +40,7 @@ class Pest::DataSet::NArray < NMatrix
   def to_hash
     hash = {}
     variables.values.each_index do |i|
-      hash[variables[i]] = self[true,i].to_a[0]
+      hash[variables.values[i]] = self[true,i].to_a[0]
     end
     hash
   end
