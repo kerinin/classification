@@ -11,14 +11,27 @@ class Pest::Estimator::Set::Frequency
     attr_reader :frequencies, :checksum
 
     def cache_model
-      @checksum = @estimator.data.hash
+      csum = @estimator.data.hash
+      if csum and csum == @checksum and file = find_tempfile
+        @frequencies = Marshal.restore(file)
+      else
+        @checksum = csum
 
-      @frequencies = Hash.new(0)
-      @estimator.data.each_vector(@variables) do |vector|
-        @frequencies[vector] += 1
+        @frequencies = Hash.new(0)
+        @estimator.data.each_vector(@variables) do |vector|
+          @frequencies[vector] += 1
+        end
+
+        Marshal.dump @frequencies, Tempfile.new("#{@checksum}.#{@variables.hash}")
       end
+    end
 
-      Marshal.dump @self, Tempfile.new("#{@checksum}.#{@variables.hash}")
+    private
+
+    def find_tempfile
+      if path = Dir.glob("#{Dir::Tmpname.tmpdir}/*").select {|path| path =~ /#{@checksum}\.#{@variables.hash}/}.first
+        File.open(path)
+      end
     end
   end
 end

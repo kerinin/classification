@@ -48,17 +48,36 @@ describe Pest::Estimator::Set::Frequency do
       end
 
       context "with recognized checksum but no file" do
-        it "determines vector frequency"
-        it "saves to temp file"
+        before(:each) do
+          File.delete @dist.cache_model
+        end
+
+        it "determines vector frequency" do
+          @data.should_receive(:each_vector)
+          @dist.cache_model
+        end
+
+        it "saves to temp file" do
+          @file = Tempfile.new('test')
+          Tempfile.should_receive(:new).with(/#{@dist.checksum}/).and_return(@file)
+          @dist.cache_model
+        end
       end
 
       context "with recognized checksum and cache file" do
-        it "loads the data from file"
+        before(:each) do
+          @file = @dist.cache_model
+        end
+
+        it "loads the data from file" do
+          Marshal.should_receive(:restore).with(kind_of(File))
+          @dist.cache_model
+        end
       end
     end
 
     describe "evaluate" do
-      it "calculates vector frequency / dataset length"
+      it "calculates vector frequency / dataset length" 
       it "return NArray"
     end
   end
