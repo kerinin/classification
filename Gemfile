@@ -6,6 +6,7 @@ gem "narray"
 gem "uuidtools"
 
 group :development, :test do
+  gem "rake"
   gem "pry"
   gem "rspec"
 end
