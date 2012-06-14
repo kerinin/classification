@@ -14,8 +14,10 @@ class Pest::DataSet::NArray < NMatrix
 
   def self.from_hash(hash)
     data_set = to_na(hash.values())
-    data_set.variables = hash.keys.map do |key|
-      key.kind_of?(Pest::Variable) ? key : Pest::Variable.new(:name => key)
+    data_set.variables = {}
+    hash.keys.each do |key|
+      variable = key.kind_of?(Pest::Variable) ? key : Pest::Variable.new(:name => key)
+      data_set.variables[variable.name] = variable
     end
     data_set
   end
@@ -37,7 +39,7 @@ class Pest::DataSet::NArray < NMatrix
 
   def to_hash
     hash = {}
-    variables.each_index do |i|
+    variables.values.each_index do |i|
       hash[variables[i]] = self[true,i].to_a[0]
     end
     hash

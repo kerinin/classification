@@ -15,6 +15,7 @@ require "pest/data_set/narray"
 
 require "pest/estimator"
 require "pest/estimator/set"
+require "pest/estimator/set/frequency"
 
 module Pest
 end

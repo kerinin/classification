@@ -2,9 +2,30 @@ require 'spec_helper'
 
 class TestClass
   include Pest::Estimator
+  def distribution_class; Distribution end
+  class Distribution
+    include Pest::Estimator::Distribution
+  end
 end
 
 describe Pest::Estimator do
+  before(:each) do
+    @data = Pest::DataSet::NArray.from_hash :foo => [1,1,2,3], :bar => [1,1,1,1]
+    @class = TestClass
+  end
+
+  describe "new" do
+    it "accepts a dataset" do
+      @class.new(@data).data.should == @data
+    end
+  end
+
+  describe "variables" do
+    it "proxies data set" do
+      @class.new(@data).variables.should == @data.variables
+    end
+  end
+
   describe "estimates" do
     before(:each) do
       @v1 = Pest::Variable.new(:name => :foo)

@@ -1,4 +1,14 @@
 module Pest::Estimator 
+  attr_accessor :data
+
+  def initialize(data=nil)
+    @data = data
+  end
+
+  def variables
+    data.nil? ? {} : data.variables
+  end
+
   def distributions
     @distributions ||= DistributionList.new(self)
   end
@@ -14,7 +24,7 @@ module Pest::Estimator
     variable
   end
 
-  class Distribution
+  module Distribution
     attr_reader :variables
 
     def initialize(estimator, variables)
@@ -29,13 +39,24 @@ module Pest::Estimator
     end
 
     def parse_args(args)
-      Array(args).flatten.map {|arg| @estimator.to_variable(arg) }.to_set
+      set = if args.kind_of? Array
+        if args.any? {|arg| arg.kind_of?(::Set)}
+          args.inject(::Set.new) {|set, el| set + el.to_set}
+        else
+          args.flatten.to_set
+        end
+      elsif args.kind_of? ::Set
+        args
+      else
+        Array(args).to_set
+      end
+      set.map! {|arg| @estimator.to_variable(arg) }
     end
 
     def [](*args)
       set = parse_args(args)
       unless has_key? set
-        self[set] = Distribution.new(self, set)
+        self[set] = @estimator.distribution_class.new(@estimator, set)
       end
       super(set)
     end

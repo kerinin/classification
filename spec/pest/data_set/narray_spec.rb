@@ -38,7 +38,7 @@ describe Pest::DataSet::NArray do
     end
       
     it "sets variables" do
-      @class.from_file(@file).variables.should == [@v1, @v2]
+      @class.from_file(@file).variables.values.should == [@v1, @v2]
     end
   end
 
@@ -52,11 +52,11 @@ describe Pest::DataSet::NArray do
     end
 
     it "sets variables" do
-      @class.from_hash({@v1 => [1,2,3], @v2 => [4,5,6]}).variables.should == [@v1, @v2]
+      @class.from_hash({@v1 => [1,2,3], @v2 => [4,5,6]}).variables.values.should == [@v1, @v2]
     end
 
     it "generates Pest::Variables if not passed" do
-      @class.from_hash({:foo => [1,2,3]}).variables.first.should be_a(Pest::Variable)
+      @class.from_hash({:foo => [1,2,3]}).variables[:foo].should be_a(Pest::Variable)
     end
   end
 
