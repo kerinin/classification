@@ -45,12 +45,8 @@ class Pest::DataSet::NArray < NMatrix
     hash
   end
 
-  def each_vector(variables)
-    variable_indices = variables.map {|v| @variables.values.index(v)}
-
-    Array(self[true, variable_indices].transpose).each do |vector|
-      yield vector
-    end
+  def vectors
+    @vectors ||= VectorEnumerable.new(self)
   end
 
   def save(file=nil)
@@ -58,5 +54,23 @@ class Pest::DataSet::NArray < NMatrix
     file = File.open(file, 'w') if file.kind_of?(String)
     Marshal.dump([variables,to_a], file)
     file.close
+  end
+
+  class VectorEnumerable
+    include Enumerable
+
+    def initialize(data_set)
+      @data_set = data_set
+    end
+
+    def [](i)
+      @data_set[i,true].transpose
+    end
+
+    def each
+      (0..@data_set.shape[0]-1).each do |i|
+        yield Array(self[i]).first
+      end
+    end
   end
 end

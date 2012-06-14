@@ -53,7 +53,7 @@ describe Pest::Estimator::Set::Frequency do
         end
 
         it "determines vector frequency" do
-          @data.should_receive(:each_vector)
+          @data.should_receive(:vectors)
           @dist.cache_model
         end
 

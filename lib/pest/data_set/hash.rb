@@ -21,6 +21,8 @@ class Pest::DataSet::Hash
     end
   end
 
+  attr_reader :variables, :hash
+
   def initialize(hash)
     @hash = hash
     @variables = {}
@@ -33,15 +35,31 @@ class Pest::DataSet::Hash
     @hash
   end
 
-  def each_vector(variables)
-    @hash.values.first.each_index do |i|
-      yield variables.map {|var| @hash[var][i]}
-    end
+  def vectors
+    @vectors ||= VectorEnumerable.new(self)
   end
 
   def save(file=nil)
     file ||= Tempfile.new('pest_hash_dataset')
     file = File.open(file, 'w') if file.kind_of?(String)
     Marshal.dump(@hash, file)
+  end
+
+  class VectorEnumerable
+    include Enumerable
+
+    def initialize(data_set)
+      @data_set = data_set
+    end
+
+    def [](i)
+      @data_set.variables.map {|var| @data_set.hash[var][i]}
+    end
+
+    def each
+      @data_set.hash.values.first.each_index do |i|
+        yield @data_set.variables.keys.map {|var| @data_set.hash[var][i]}
+      end
+    end
   end
 end

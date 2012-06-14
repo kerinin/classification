@@ -1,5 +1,9 @@
 require 'spec_helper'
 
+# NOTE: make sure you're clear on the relationship between variables,
+# their names, and the keys used in @hash.  I think they're getting
+# conflated
+
 describe Pest::DataSet::Hash do
   context "class methods" do
     before(:each) do
@@ -58,8 +62,14 @@ describe Pest::DataSet::Hash do
     end
   end
 
-  describe "each_vector" do
-    it "yields each vector"
+  describe "vectors" do
+    it "returns an enumerable" do
+      @instance.vectors.should be_a(Enumerable)
+    end
+
+    it "formats data as a list of rows" do
+      @instance.vectors.first.should == [1,3]
+    end
   end
 
   describe "save" do

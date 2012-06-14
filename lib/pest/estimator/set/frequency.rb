@@ -18,7 +18,8 @@ class Pest::Estimator::Set::Frequency
         @checksum = csum
 
         @frequencies = Hash.new(0)
-        @estimator.data.each_vector(@variables) do |vector|
+        # NOTE: This needs to be filtering the vectors by variable, and it's not...
+        @estimator.data.vectors.each do |vector|
           @frequencies[vector] += 1
         end
 
