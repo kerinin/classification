@@ -1,5 +1,8 @@
 # Pest, a framework for Probability Estimation
 
+[![Build Status](https://secure.travis-ci.org/kerinin/pest.png)](http://travis-ci.org/kerinin/pest)
+
+
 Pest provides a unified framework for interacting with different probability
 estimation models.  
 
