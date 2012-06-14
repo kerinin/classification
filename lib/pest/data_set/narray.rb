@@ -45,6 +45,14 @@ class Pest::DataSet::NArray < NMatrix
     hash
   end
 
+  def each_vector(variables)
+    variable_indices = variables.map {|v| @variables.values.index(v)}
+
+    Array(self[true, variable_indices].transpose).each do |vector|
+      yield vector
+    end
+  end
+
   def save(file=nil)
     file ||= Tempfile.new('pest_hash_dataset')
     file = File.open(file, 'w') if file.kind_of?(String)

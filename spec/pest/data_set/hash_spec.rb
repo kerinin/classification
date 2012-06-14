@@ -58,7 +58,10 @@ describe Pest::DataSet::Hash do
     end
   end
 
-  # Required
+  describe "each_vector" do
+    it "yields each vector"
+  end
+
   describe "save" do
     before(:each) do
       @file = File.open(__FILE__, 'r')

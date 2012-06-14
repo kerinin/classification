@@ -74,6 +74,10 @@ describe Pest::DataSet::NArray do
     end
   end
 
+  describe "each_vector" do
+    it "yields to each vector"
+  end
+
   describe "save" do
     before(:each) do
       @file = Tempfile.new('test')

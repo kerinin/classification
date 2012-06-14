@@ -33,6 +33,12 @@ class Pest::DataSet::Hash
     @hash
   end
 
+  def each_vector(variables)
+    @hash.values.first.each_index do |i|
+      yield variables.map {|var| @hash[var][i]}
+    end
+  end
+
   def save(file=nil)
     file ||= Tempfile.new('pest_hash_dataset')
     file = File.open(file, 'w') if file.kind_of?(String)
