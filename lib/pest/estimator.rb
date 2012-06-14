@@ -6,7 +6,7 @@ module Pest::Estimator
   end
 
   def variables
-    data.nil? ? {} : data.variables
+    @data.nil? ? {} : @data.variables
   end
 
   def distributions
