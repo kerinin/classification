@@ -74,18 +74,18 @@ describe Pest::DataSet::NArray do
     end
   end
 
-  describe "vectors" do
+  describe "data_vectors" do
     before(:each) do
       @instance = @class.from_hash :foo => [1,2,3], :bar => [4,5,6]
     end
 
     it "returns an enumerable" do
-      @instance.vectors.should be_a(Enumerable)
+      @instance.data_vectors.should be_a(Enumerable)
     end
 
     it "slices" do
       # NOTE: This is returning an array - probably could be more efficient
-      @instance.vectors.first.should == [1,4]
+      @instance.data_vectors.first.should == [1,4]
     end
   end
 

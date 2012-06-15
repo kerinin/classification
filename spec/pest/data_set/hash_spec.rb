@@ -62,13 +62,13 @@ describe Pest::DataSet::Hash do
     end
   end
 
-  describe "vectors" do
+  describe "data_vectors" do
     it "returns an enumerable" do
-      @instance.vectors.should be_a(Enumerable)
+      @instance.data_vectors.should be_a(Enumerable)
     end
 
     it "formats data as a list of rows" do
-      @instance.vectors.first.should == [1,3]
+      @instance.data_vectors.first.should == [1,3]
     end
   end
 

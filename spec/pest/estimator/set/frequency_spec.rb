@@ -3,7 +3,9 @@ require 'spec_helper'
 describe Pest::Estimator::Set::Frequency do
   before(:each) do
     @class = Pest::Estimator::Set::Frequency
-    @data = Pest::DataSet::NArray.from_hash :foo => [1,1,2,3], :bar => [1,1,1,1]
+    @v1 = Pest::Variable.new(:name => :foo)
+    @v2 = Pest::Variable.new(:name => :bar)
+    @data = Pest::DataSet::NArray.from_hash @v1 => [1,1,2,3], @v2 => [1,1,1,1]
     @instance = @class.new(@data)
   end
 
@@ -48,12 +50,8 @@ describe Pest::Estimator::Set::Frequency do
       end
 
       context "with recognized checksum but no file" do
-        before(:each) do
-          File.delete @dist.cache_model
-        end
-
         it "determines vector frequency" do
-          @data.should_receive(:vectors)
+          @data.should_receive(:data_vectors).and_return @data
           @dist.cache_model
         end
 
@@ -77,8 +75,15 @@ describe Pest::Estimator::Set::Frequency do
     end
 
     describe "evaluate" do
-      it "calculates vector frequency / dataset length" 
-      it "return NArray"
+      before(:each) { @test = Pest::DataSet::NArray.from_hash @v1 => [1,2,4], @v2 => [1,1,1] }
+
+      it "returns an NArray" do
+        @dist.evaluate(@test).should be_a(NArray)
+      end
+
+      it "calculates vector frequency / dataset length"  do
+        @dist.evaluate(@test).should == NArray[[0.5,0.25,0]]        
+      end
     end
   end
 end

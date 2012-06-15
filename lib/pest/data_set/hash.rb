@@ -35,8 +35,12 @@ class Pest::DataSet::Hash
     @hash
   end
 
-  def vectors
-    @vectors ||= VectorEnumerable.new(self)
+  def data_vectors(variables=nil)
+    VectorEnumerable.new(self,variables)
+  end
+
+  def length
+    @hash.first.length
   end
 
   def save(file=nil)
@@ -48,17 +52,18 @@ class Pest::DataSet::Hash
   class VectorEnumerable
     include Enumerable
 
-    def initialize(data_set)
+    def initialize(data_set,variables=nil)
       @data_set = data_set
+      @variables = variables || @data_set.variables
     end
 
     def [](i)
-      @data_set.variables.map {|var| @data_set.hash[var][i]}
+      @variables.map {|var| @data_set.hash[var][i]}
     end
 
     def each
       @data_set.hash.values.first.each_index do |i|
-        yield @data_set.variables.keys.map {|var| @data_set.hash[var][i]}
+        yield @variables.keys.map {|var| @data_set.hash[var][i]}
       end
     end
   end

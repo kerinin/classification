@@ -18,13 +18,20 @@ class Pest::Estimator::Set::Frequency
         @checksum = csum
 
         @frequencies = Hash.new(0)
-        # NOTE: This needs to be filtering the vectors by variable, and it's not...
-        @estimator.data.vectors.each do |vector|
+        @estimator.data.data_vectors(variables).each do |vector|
           @frequencies[vector] += 1
         end
 
         Marshal.dump @frequencies, Tempfile.new("#{@checksum}.#{@variables.hash}")
       end
+    end
+
+    def evaluate(data)
+      cache_model
+
+      NArray[ data.data_vectors(variables).map do |vector|
+        @frequencies[vector].to_f
+      end ] / @estimator.data.length
     end
 
     private

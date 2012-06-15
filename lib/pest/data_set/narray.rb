@@ -45,8 +45,12 @@ class Pest::DataSet::NArray < NMatrix
     hash
   end
 
-  def vectors
-    @vectors ||= VectorEnumerable.new(self)
+  def data_vectors(variables=nil)
+    VectorEnumerable.new(self, variables)
+  end
+
+  def length
+    shape[0]
   end
 
   def save(file=nil)
@@ -59,12 +63,16 @@ class Pest::DataSet::NArray < NMatrix
   class VectorEnumerable
     include Enumerable
 
-    def initialize(data_set)
+    def initialize(data_set, variables = true)
       @data_set = data_set
+      @variables = variables
+      if @variables.kind_of?(Enumerable)
+        @variables = variables.map {|v| @data_set.variables.values.index(v)}
+      end
     end
 
     def [](i)
-      @data_set[i,true].transpose
+      @data_set[i,@variables].transpose
     end
 
     def each
