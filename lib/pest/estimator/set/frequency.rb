@@ -26,7 +26,7 @@ class Pest::Estimator::Set::Frequency
       end
     end
 
-    def evaluate(data)
+    def probability(data)
       cache_model
 
       NArray[ data.data_vectors(variables).map do |vector|

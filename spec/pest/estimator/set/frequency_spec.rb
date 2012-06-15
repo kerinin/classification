@@ -6,11 +6,24 @@ describe Pest::Estimator::Set::Frequency do
     @v1 = Pest::Variable.new(:name => :foo)
     @v2 = Pest::Variable.new(:name => :bar)
     @data = Pest::DataSet::NArray.from_hash @v1 => [1,1,2,3], @v2 => [1,1,1,1]
+    @test = Pest::DataSet::NArray.from_hash @v1 => [1,2,4], @v2 => [1,1,1]
     @instance = @class.new(@data)
   end
 
   it "inherits from set" do
     @instance.should be_a(Pest::Estimator::Set)
+  end
+
+  it "generates marginal probabilityes" do
+    @instance.p(@v2).in(@test).evaluate.should == NArray[[1.0, 1.0, 1.0]]
+  end
+
+  it "generates joint probability" do
+    @instance.p(@v1, @v2).in(@test).evaluate.should == NArray[[0.5, 0.25, 0]]
+  end
+
+  it "generates conditional probability" do
+    @instance.p(@v1).given(@v2).in(@test).evaluate.should == NArray[[0.5, 0.25, 0]]
   end
 
   describe Pest::Estimator::Set::Frequency::Distribution do
@@ -74,15 +87,13 @@ describe Pest::Estimator::Set::Frequency do
       end
     end
 
-    describe "evaluate" do
-      before(:each) { @test = Pest::DataSet::NArray.from_hash @v1 => [1,2,4], @v2 => [1,1,1] }
-
+    describe "probability" do
       it "returns an NArray" do
-        @dist.evaluate(@test).should be_a(NArray)
+        @dist.probability(@test).should be_a(NArray)
       end
 
       it "calculates vector frequency / dataset length"  do
-        @dist.evaluate(@test).should == NArray[[0.5,0.25,0]]        
+        @dist.probability(@test).should == NArray[[0.5,0.25,0]]        
       end
     end
   end
