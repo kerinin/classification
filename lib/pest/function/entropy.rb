@@ -6,14 +6,9 @@ module Pest::Function
     alias :h :entropy
 
     class Builder
-      attr_reader :estimator, :event, :givens
+      include Pest::Function::Builder
 
-      # Delegate methods to the result of 'evaluate'
-      # (Object.instance_methods + Rational.instance_methods).each do |f|
-      #   define_method(f) do |*args|
-      #     evaluate.send(f, *args)
-      #   end
-      # end
+      attr_reader :estimator, :event, :givens
 
       def initialize(estimator, variables)
         @estimator      = estimator
@@ -34,12 +29,6 @@ module Pest::Function
           conditional = estimator.distributions[givens].entropy
           joint - conditional
         end
-      end
-
-      private
-
-      def parse(variables)
-        variables.map {|arg| estimator.to_variable(arg) }.to_set
       end
     end
   end
