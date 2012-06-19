@@ -8,6 +8,12 @@ module Pest::Function
     class Builder
       attr_reader :estimator, :data_source, :event, :givens
 
+      (Object.instance_methods + Rational.instance_methods).each do |f|
+        define_method(f) do |*args|
+          evaluate.send(f, *args)
+        end
+      end
+
       def initialize(estimator, variables)
         @estimator      = estimator
         @data_source    = data_source

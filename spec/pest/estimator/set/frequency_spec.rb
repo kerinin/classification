@@ -14,16 +14,16 @@ describe Pest::Estimator::Set::Frequency do
     @instance.should be_a(Pest::Estimator::Set)
   end
 
-  it "generates marginal probabilityes" do
-    @instance.p(@v2).in(@test).evaluate.should == NArray[[1.0, 1.0, 1.0]]
+  it "generates marginal probabilities" do
+    @instance.p(@v2).in(@test).should === NArray[[1.0, 1.0, 1.0]]
   end
 
   it "generates joint probability" do
-    @instance.p(@v1, @v2).in(@test).evaluate.should == NArray[[0.5, 0.25, 0]]
+    @instance.p(@v1, @v2).in(@test).should == NArray[[0.5, 0.25, 0]]
   end
 
   it "generates conditional probability" do
-    @instance.p(@v1).given(@v2).in(@test).evaluate.should == NArray[[0.5, 0.25, 0]]
+    @instance.p(@v1).given(@v2).in(@test).should == NArray[[0.5, 0.25, 0]]
   end
 
   describe Pest::Estimator::Set::Frequency::Distribution do
