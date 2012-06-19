@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class TestClass
+class EntropyTestClass
   include Pest::Estimator
   include Pest::Function::Entropy
 end
@@ -10,7 +10,7 @@ describe Pest::Function::Entropy do
     @v1 = Pest::Variable.new(:name => :foo)
     @v2 = Pest::Variable.new(:name => :bar)
     @v3 = Pest::Variable.new(:name => :baz)
-    @instance = TestClass.new
+    @instance = EntropyTestClass.new
     @instance.stub(:variables).and_return({:foo => @v1, :bar => @v2})
   end
 
@@ -26,7 +26,7 @@ describe Pest::Function::Entropy do
 
   describe Pest::Function::Entropy::Builder do
     describe "new" do
-      before(:each) { @builder = TestClass::Builder.new(@instance, [@v1, :bar]) }
+      before(:each) { @builder = EntropyTestClass::Builder.new(@instance, [@v1, :bar]) }
 
       it "sets estimator" do
         @builder.estimator.should == @instance
@@ -37,14 +37,14 @@ describe Pest::Function::Entropy do
       end
 
       it "fails if variable undefined for estimator" do
-        lambda { TestClass::Builder.new(@instance, [@v1, @v3]) }.should raise_error(ArgumentError)
+        lambda { EntropyTestClass::Builder.new(@instance, [@v1, @v3]) }.should raise_error(ArgumentError)
       end
 
       it "constructs dataset if passed hash"
     end
 
     describe "given" do
-      before(:each) { @builder = TestClass::Builder.new(@instance, [:foo]) }
+      before(:each) { @builder = EntropyTestClass::Builder.new(@instance, [:foo]) }
 
       it "sets givens" do
         @builder.given(:bar)
@@ -52,7 +52,7 @@ describe Pest::Function::Entropy do
       end
 
       it "returns self" do
-        @builder.given(:bar).should be_a(TestClass::Builder)
+        @builder.given(:bar).should be_a(EntropyTestClass::Builder)
       end
 
       it "fails if variables aren't variables on the estimator" do
@@ -68,41 +68,37 @@ describe Pest::Function::Entropy do
       it "generates dataset if not specified"
 
       it "gets entropy of event" do
-        event = double('EventDist')
+        event = double('EntropyEventDist')
         @instance.distributions.stub(:[]).with([@v1].to_set).and_return(event)
         event.should_receive(:entropy).and_return 0.5
 
-        TestClass::Builder.new(@instance,[:foo]).evaluate
+        EntropyTestClass::Builder.new(@instance,[:foo]).evaluate
       end
 
       it "gets entropy of givens" do
-        event = double("EventDist")
-        given = double("GivenDist")
+        event = double("EntropyEventDist", :entropy => 0.5)
+        given = double("EntropyGivenDist", :entropy => 0.25)
         @instance.distributions.stub(:[]).with([@v1].to_set).and_return(event)
         @instance.distributions.stub(:[]).with([@v2].to_set).and_return(given)
-        event.stub(:entropy).and_return 0.5
         given.should_receive(:entropy).and_return 0.25
 
-        TestClass::Builder.new(@instance,[:foo]).given(:bar).evaluate
+        EntropyTestClass::Builder.new(@instance,[:foo]).given(:bar).evaluate
       end
 
       it "returns H event - givens (if givens)" do
-        event = double("EventDist")
-        given = double("GivenDist")
+        event = double("EntropyEventDist", :entropy => 0.5)
+        given = double("EntropyGivenDist", :entropy => 0.1)
         @instance.distributions.stub(:[]).with([@v1].to_set).and_return(event)
         @instance.distributions.stub(:[]).with([@v2].to_set).and_return(given)
-        event.stub(:entropy).and_return 0.5
-        given.stub(:entropy).and_return 0.1
 
-        TestClass::Builder.new(@instance,[:foo]).given(:bar).evaluate.should == 0.4
+        EntropyTestClass::Builder.new(@instance,[:foo]).given(:bar).evaluate.should == 0.4
       end
 
       it "returns H event (if no givens)" do
-        event = double("EventDist")
+        event = double("EntropyEventDist", :entropy => 0.5)
         @instance.distributions.stub(:[]).with([@v1].to_set).and_return(event)
-        event.stub(:entropy).and_return 0.5
 
-        TestClass::Builder.new(@instance,[:foo]).evaluate.should == 0.5
+        EntropyTestClass::Builder.new(@instance,[:foo]).evaluate.should == 0.5
       end
     end
   end

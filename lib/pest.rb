@@ -6,6 +6,7 @@ require 'uuidtools'
 require "pest/version"
 require "pest/variable"
 
+require "pest/function"
 require "pest/function/probability"
 require "pest/function/entropy"
 

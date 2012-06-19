@@ -6,14 +6,9 @@ module Pest::Function
     alias :p :probability
 
     class Builder
-      attr_reader :estimator, :data_source, :event, :givens
+      include Pest::Function::Builder
 
-      # Delegate methods to the result of 'evaluate'
-      (Object.instance_methods + Rational.instance_methods).each do |f|
-        define_method(f) do |*args|
-          evaluate.send(f, *args)
-        end
-      end
+      attr_reader :estimator, :data_source, :event, :givens
 
       def initialize(estimator, variables)
         @estimator      = estimator

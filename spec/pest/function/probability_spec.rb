@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class TestClass
+class ProbabilityTestClass
   include Pest::Estimator
   include Pest::Function::Probability
 end
@@ -10,7 +10,7 @@ describe Pest::Function::Probability do
     @v1 = Pest::Variable.new(:name => :foo)
     @v2 = Pest::Variable.new(:name => :bar)
     @v3 = Pest::Variable.new(:name => :baz)
-    @instance = TestClass.new
+    @instance = ProbabilityTestClass.new
     @instance.stub(:variables).and_return({:foo => @v1, :bar => @v2})
   end
 
@@ -26,7 +26,7 @@ describe Pest::Function::Probability do
 
   describe Pest::Function::Probability::Builder do
     describe "new" do
-      before(:each) { @builder = TestClass::Builder.new(@instance, [@v1, :bar]) }
+      before(:each) { @builder = ProbabilityTestClass::Builder.new(@instance, [@v1, :bar]) }
 
       it "sets estimator" do
         @builder.estimator.should == @instance
@@ -37,14 +37,14 @@ describe Pest::Function::Probability do
       end
 
       it "fails if variable undefined for estimator" do
-        lambda { TestClass::Builder.new(@instance, [@v1, @v3]) }.should raise_error(ArgumentError)
+        lambda { ProbabilityTestClass::Builder.new(@instance, [@v1, @v3]) }.should raise_error(ArgumentError)
       end
 
       it "constructs dataset if passed hash"
     end
 
     describe "given" do
-      before(:each) { @builder = TestClass::Builder.new(@instance, [:foo]) }
+      before(:each) { @builder = ProbabilityTestClass::Builder.new(@instance, [:foo]) }
 
       it "sets givens" do
         @builder.given(:bar)
@@ -52,7 +52,7 @@ describe Pest::Function::Probability do
       end
 
       it "returns self" do
-        @builder.given(:bar).should be_a(TestClass::Builder)
+        @builder.given(:bar).should be_a(ProbabilityTestClass::Builder)
       end
 
       it "fails if variables aren't variables on the estimator" do
@@ -67,7 +67,7 @@ describe Pest::Function::Probability do
     describe "in" do
       it "sets data source" do
         data_set = double('DataSet')
-        TestClass::Builder.new(@instance,[:foo]).in(data_set).data_source.should == data_set
+        ProbabilityTestClass::Builder.new(@instance,[:foo]).in(data_set).data_source.should == data_set
       end
 
       it "raises error if existing data source"
@@ -81,7 +81,7 @@ describe Pest::Function::Probability do
         @instance.distributions.stub(:[]).with([@v1].to_set).and_return(event)
         event.should_receive(:probability).and_return 0.5
 
-        TestClass::Builder.new(@instance,[:foo]).evaluate
+        ProbabilityTestClass::Builder.new(@instance,[:foo]).evaluate
       end
 
       it "gets probability of givens" do
@@ -92,7 +92,7 @@ describe Pest::Function::Probability do
         event.stub(:probability).and_return 0.5
         given.should_receive(:probability).and_return 0.5
 
-        TestClass::Builder.new(@instance,[:foo]).given(:bar).evaluate
+        ProbabilityTestClass::Builder.new(@instance,[:foo]).given(:bar).evaluate
       end
 
       it "returns Pr event / givens (if givens)" do
@@ -103,7 +103,7 @@ describe Pest::Function::Probability do
         event.stub(:probability).and_return 0.5
         given.stub(:probability).and_return 0.5
 
-        TestClass::Builder.new(@instance,[:foo]).given(:bar).evaluate.should == 1.0
+        ProbabilityTestClass::Builder.new(@instance,[:foo]).given(:bar).evaluate.should == 1.0
       end
 
       it "returns Pr event (if no givens)" do
@@ -111,7 +111,7 @@ describe Pest::Function::Probability do
         @instance.distributions.stub(:[]).with([@v1].to_set).and_return(event)
         event.stub(:probability).and_return 0.5
 
-        TestClass::Builder.new(@instance,[:foo]).evaluate.should == 0.5
+        ProbabilityTestClass::Builder.new(@instance,[:foo]).evaluate.should == 0.5
       end
     end
   end
