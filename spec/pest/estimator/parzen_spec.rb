@@ -1,13 +1,13 @@
 # require 'spec_helper'
 # 
-# describe Pest::Estimator::Multinomial do
-#   it "inherits from set"
+# describe Pest::Estimator::Parzen do
+#   it "inherits from continuous"
 # 
 #   describe "estimate_class" do
-#     before(:each) { @instance = Pest::Estimator::Multinomial.new }
+#     before(:each) { @instance = Pest::Estimator::Parzen.new }
 # 
 #     it "returns class" do
-#       @instance.estimate_class.should == Pest::Estimate::Multinomial
+#       @instance.estimate_class.should == Pest::Estimate::Parzen
 #     end
 #   end
 # 

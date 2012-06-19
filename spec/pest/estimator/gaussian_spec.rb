@@ -1,13 +1,13 @@
 # require 'spec_helper'
 # 
-# describe Pest::Estimator::Discrete::Gaussian do
+# describe Pest::Estimator::Gaussian do
 #   it "inherits from discrete"
 # 
 #   describe "estimate_class" do
-#     before(:each) { @instance = Pest::Extimator::Discrete::Gaussian.new }
+#     before(:each) { @instance = Pest::Extimator::Gaussian.new }
 # 
 #     it "returns class" do
-#       @instance.estimate_class.should == Pest::Estimate::Discrete::Gaussian
+#       @instance.estimate_class.should == Pest::Estimate::Gaussian
 #     end
 #   end
 # 
