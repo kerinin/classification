@@ -60,6 +60,38 @@ describe Pest::DataSet::NArray do
     end
   end
 
+  describe "from_csv" do
+    before(:each) do
+      @file = Tempfile.new('test_csv')
+      CSV.open(@file.path, 'w') do |csv|
+        csv << ["foo", "bar"]
+        csv << [1,1]
+        csv << [1,2]
+        csv << [1,3]
+      end
+    end
+
+    it "creates variables from first line" do
+      @instance = @class.from_csv @file.path
+      @instance.variable_array.map(&:name).should == ["bar", "foo"]
+    end
+
+    it "creates data from the rest" do
+      @instance = @class.from_csv @file.path
+      @instance.to_hash.should == {@instance.variables["foo"] => [1,1,1], @instance.variables["bar"] => [1,2,3]}
+    end
+
+    it "accepts a filename" do
+      @instance = @class.from_csv @file.path
+      @instance.to_hash.should == {@instance.variables["foo"] => [1,1,1], @instance.variables["bar"] => [1,2,3]}
+    end
+
+    it "accepts an IO" do
+      @instance = @class.from_csv @file
+      @instance.to_hash.should == {@instance.variables["foo"] => [1,1,1], @instance.variables["bar"] => [1,2,3]}
+    end
+  end
+
   describe "to_hash" do
     before(:each) do
       @instance = @class.from_hash :foo => [1,2,3], :bar => [4,5,6]

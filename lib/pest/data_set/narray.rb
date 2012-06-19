@@ -35,6 +35,17 @@ class Pest::DataSet::NArray < NMatrix
     end
   end
 
+  def self.from_csv(file)
+    data = CSV.read(file, :converters => :all)
+    data_set = to_na(data[1..-1]).transpose
+    data_set.variables = {}
+    data[0].each do |key|
+      variable = key.kind_of?(Pest::Variable) ? key : Pest::Variable.new(:name => key)
+      data_set.variables[variable.name] = variable
+    end
+    data_set
+  end
+
   attr_accessor :variables
 
   def to_hash
