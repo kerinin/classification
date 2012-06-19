@@ -18,4 +18,5 @@ require "pest/estimator/set"
 require "pest/estimator/set/frequency"
 
 module Pest
+  CACHE_TO_FILE = false
 end

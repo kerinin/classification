@@ -13,7 +13,7 @@ class Pest::DataSet::NArray < NMatrix
   end
 
   def self.from_hash(hash)
-    data_set = to_na(hash.values())
+    data_set = to_na(hash.keys.sort.map {|key| hash[key]}) # Ensure the matrix is sorted the same as the variables
     data_set.variables = {}
     hash.keys.each do |key|
       variable = key.kind_of?(Pest::Variable) ? key : Pest::Variable.new(:name => key)
@@ -45,6 +45,8 @@ class Pest::DataSet::NArray < NMatrix
     hash
   end
 
+  # variables: an array of variables for which each vector should contain values
+  # Order is retained in the returned value
   def data_vectors(variables=nil)
     VectorEnumerable.new(self, variables)
   end
@@ -67,7 +69,7 @@ class Pest::DataSet::NArray < NMatrix
       @data_set = data_set
       @variables = variables
       if @variables.kind_of?(Enumerable)
-        @variables = variables.map {|v| @data_set.variables.values.index(v)}
+        @variables = variables.map {|v| @data_set.variable_array.index(v)}
       end
     end
 

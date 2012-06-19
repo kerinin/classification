@@ -8,6 +8,7 @@ module Pest::Function
     class Builder
       attr_reader :estimator, :data_source, :event, :givens
 
+      # Delegate methods to the result of 'evaluate'
       (Object.instance_methods + Rational.instance_methods).each do |f|
         define_method(f) do |*args|
           evaluate.send(f, *args)

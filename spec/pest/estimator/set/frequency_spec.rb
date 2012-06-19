@@ -41,8 +41,6 @@ describe Pest::Estimator::Set::Frequency do
         it "determines vector frequency" do
           @dist.cache_model
           @dist.frequencies[[1,1]].should == 2
-          @dist.frequencies[[2,1]].should == 1
-          @dist.frequencies[[3,1]].should == 1
         end
 
         it "defaults to 0" do
@@ -80,7 +78,9 @@ describe Pest::Estimator::Set::Frequency do
           @file = @dist.cache_model
         end
 
-        it "loads the data from file" do
+        it "loads the data from file if caching" do
+          pending "proper implementation of caching to disk"
+
           Marshal.should_receive(:restore).with(kind_of(File))
           @dist.cache_model
         end
@@ -94,6 +94,20 @@ describe Pest::Estimator::Set::Frequency do
 
       it "calculates vector frequency / dataset length"  do
         @dist.probability(@test).should == NArray[[0.5,0.25,0]]        
+      end
+    end
+    
+    describe "entropy" do
+      it "returns a Float" do
+        @dist.entropy.should be_a(Float)
+      end
+
+      it "calculates -sum(PlogP)" do
+        # Outcomes = ([1,1]: 2, [2,1]: 1, [3,1]: 1)
+        # P = (0.5, 0.25, 0.25)
+        # logP = (-1, -2, -2) (log base 2 for bits)
+        # -sum(PlogP) = (0.5, 0.5, 0.5).sum
+        @dist.entropy.should == 1.5
       end
     end
   end

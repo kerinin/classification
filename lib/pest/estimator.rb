@@ -31,6 +31,10 @@ module Pest::Estimator
       @estimator = estimator
       @variables = variables
     end
+
+    def variable_array
+      variables.to_a.sort
+    end
   end
 
   class DistributionList < Hash

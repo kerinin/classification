@@ -44,7 +44,7 @@ describe Pest::DataSet::NArray do
 
   describe "self.from_hash" do
     before(:each) do
-      @matrix = NArray.to_na [[1,2,3],[4,5,6]]
+      @matrix = NArray.to_na [[4,5,6],[1,2,3]]
     end
 
     it "creates a NArray" do
@@ -70,7 +70,7 @@ describe Pest::DataSet::NArray do
     end
 
     it "sets values" do
-      @instance.to_hash.values.should == [[1,2,3],[4,5,6]]
+      @instance.to_hash.values.should == [[4,5,6],[1,2,3]]
     end
   end
 
@@ -85,7 +85,7 @@ describe Pest::DataSet::NArray do
 
     it "slices" do
       # NOTE: This is returning an array - probably could be more efficient
-      @instance.data_vectors.first.should == [1,4]
+      @instance.data_vectors.first.should == [4,1]
     end
   end
 

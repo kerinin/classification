@@ -7,6 +7,10 @@ module Pest::DataSet
     @variables ||= {}
   end
 
+  def variable_array
+    @variables.values.sort
+  end
+
   def to_hash(*args)
     raise NotImplementedError
   end

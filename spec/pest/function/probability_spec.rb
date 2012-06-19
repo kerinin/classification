@@ -25,9 +25,6 @@ describe Pest::Function::Probability do
   end
 
   describe Pest::Function::Probability::Builder do
-    it "inherits from numeric"
-    # Shared behavior for deferring evaluation?
-
     describe "new" do
       before(:each) { @builder = TestClass::Builder.new(@instance, [@v1, :bar]) }
 
@@ -76,12 +73,6 @@ describe Pest::Function::Probability do
       it "raises error if existing data source"
     end
 
-    describe "cache_model" do
-      it "caches event distribution"
-      it "caches givens distribution"
-      it "passes string argument to distributions"
-    end
-
     describe "evaluate" do
       it "generates dataset if not specified"
 
@@ -123,7 +114,5 @@ describe Pest::Function::Probability do
         TestClass::Builder.new(@instance,[:foo]).evaluate.should == 0.5
       end
     end
-
-    # Test that most functions trigger evaluate + super
   end
 end

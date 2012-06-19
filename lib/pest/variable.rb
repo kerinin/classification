@@ -28,4 +28,8 @@ class Pest::Variable
     other.kind_of?(self.class) and identifier == other.identifier
   end
   alias :eql? :==
+
+  def <=>(other)
+    identifier <=> other.identifier
+  end
 end
