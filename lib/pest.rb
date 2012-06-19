@@ -14,8 +14,7 @@ require "pest/data_set/hash"
 require "pest/data_set/narray"
 
 require "pest/estimator"
-require "pest/estimator/set"
-require "pest/estimator/set/frequency"
+require "pest/estimator/frequency"
 
 module Pest
   CACHE_TO_FILE = false

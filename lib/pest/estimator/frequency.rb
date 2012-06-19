@@ -1,7 +1,9 @@
 require 'narray'
 
-class Pest::Estimator::Set::Frequency
-  include Pest::Estimator::Set
+class Pest::Estimator::Frequency
+  include Pest::Estimator
+  include Pest::Function::Probability
+  include Pest::Function::Entropy
 
   def distribution_class
     Distribution

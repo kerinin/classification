@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe Pest::Estimator::Set::Frequency do
+describe Pest::Estimator::Frequency do
   before(:each) do
-    @class = Pest::Estimator::Set::Frequency
+    @class = Pest::Estimator::Frequency
     @v1 = Pest::Variable.new(:name => :foo)
     @v2 = Pest::Variable.new(:name => :bar)
     @data = Pest::DataSet::NArray.from_hash @v1 => [1,1,2,3], @v2 => [1,1,1,1]
@@ -11,7 +11,7 @@ describe Pest::Estimator::Set::Frequency do
   end
 
   it "inherits from set" do
-    @instance.should be_a(Pest::Estimator::Set)
+    @instance.should be_a(Pest::Estimator)
   end
 
   it "generates marginal probabilities" do
@@ -26,7 +26,7 @@ describe Pest::Estimator::Set::Frequency do
     @instance.p(@v1).given(@v2).in(@test).should == NArray[[0.5, 0.25, 0]]
   end
 
-  describe Pest::Estimator::Set::Frequency::Distribution do
+  describe Pest::Estimator::Frequency::Distribution do
     before(:each) do
       @dist = @instance.distributions[@data.variables.values.to_set]
     end
