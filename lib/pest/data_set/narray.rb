@@ -35,8 +35,9 @@ class Pest::DataSet::NArray < NMatrix
     end
   end
 
-  def self.from_csv(file)
-    data = CSV.read(file, :converters => :all)
+  def self.from_csv(file, args={})
+    args = args.merge({:converters => :all})
+    data = CSV.read(file, args)
     data_set = to_na(data[1..-1]).transpose
     data_set.variables = {}
     data[0].each do |key|
