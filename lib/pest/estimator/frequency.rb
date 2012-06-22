@@ -15,21 +15,12 @@ class Pest::Estimator::Frequency
     attr_reader :frequencies, :checksum
 
     def cache_model
-      csum = @estimator.data.hash
-      if Pest::CACHE_TO_FILE and csum and csum == @checksum and file = find_tempfile
-        @frequencies = Marshal.restore(file)
-      else
-        @checksum = csum
-
+      if @frequencies.nil?
         @frequencies = Hash.new(0)
         @estimator.data.data_vectors(variable_array).each do |vector|
           # Make sure this vector is consistently ordered
           @frequencies[vector] += 1
         end
-
-        file = Tempfile.new("#{@checksum}.#{@variables.hash}")
-        Marshal.dump @frequencies, file
-        file.close
       end
     end
 

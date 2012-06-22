@@ -40,7 +40,7 @@ class Pest::DataSet::Hash
   end
 
   def length
-    @hash.first.length
+    @hash.values.first.length
   end
 
   def save(file=nil)

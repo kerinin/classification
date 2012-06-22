@@ -32,11 +32,6 @@ describe Pest::Estimator::Frequency do
     end
 
     describe "cache_model" do
-      it "checksums the data" do
-        @data.should_receive(:hash).and_return(2938238)
-        @dist.cache_model
-      end
-      
       context "with unrecognized checksum" do
         it "determines vector frequency" do
           @dist.cache_model
@@ -47,17 +42,6 @@ describe Pest::Estimator::Frequency do
           @dist.cache_model
           @dist.frequencies[[4,1]].should == 0
         end
-          
-        it "saves to temp file" do
-          @file = Tempfile.new('test')
-          Tempfile.should_receive(:new).with(/#{@data.hash}/).and_return(@file)
-          @dist.cache_model
-        end
-
-        it "sets the cached checksum" do
-          @dist.cache_model
-          @dist.checksum.should == @data.hash
-        end
       end
 
       context "with recognized checksum but no file" do
@@ -65,24 +49,11 @@ describe Pest::Estimator::Frequency do
           @data.should_receive(:data_vectors).and_return @data
           @dist.cache_model
         end
-
-        it "saves to temp file" do
-          @file = Tempfile.new('test')
-          Tempfile.should_receive(:new).with(/#{@dist.checksum}/).and_return(@file)
-          @dist.cache_model
-        end
       end
 
       context "with recognized checksum and cache file" do
         before(:each) do
           @file = @dist.cache_model
-        end
-
-        it "loads the data from file if caching" do
-          pending "proper implementation of caching to disk"
-
-          Marshal.should_receive(:restore).with(kind_of(File))
-          @dist.cache_model
         end
       end
     end

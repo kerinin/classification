@@ -58,10 +58,6 @@ describe Pest::Estimator do
   end
 
   describe Pest::Estimator::Distribution do
-    describe "cache_model" do
-      it "raises no implemented"
-    end
-
     describe "probability" do
       it "raises no implemented"
     end

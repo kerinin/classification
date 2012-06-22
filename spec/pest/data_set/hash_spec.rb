@@ -96,8 +96,13 @@ describe Pest::DataSet::Hash do
   end
 
   describe "length" do
+    before(:each) do
+      @data = {:foo => [1,2,3], :bar => [3,4,5]}
+      @instance = Pest::DataSet::Hash.new(@data)
+    end
+
     it "delegates to hash" do
-      pending "how to handle values with different lengths"
+      @instance.length.should == 3
     end
   end
 end
