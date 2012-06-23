@@ -31,7 +31,7 @@ describe Pest::Estimator::Frequency do
       @dist = @instance.distributions[@data.variables.values.to_set]
     end
 
-    describe "cache_model" do
+    describe "#cache_model" do
       context "with unrecognized checksum" do
         it "determines vector frequency" do
           @dist.cache_model
@@ -58,7 +58,7 @@ describe Pest::Estimator::Frequency do
       end
     end
 
-    describe "probability" do
+    describe "#probability" do
       it "returns an NArray" do
         @dist.probability(@test).should be_a(NArray)
       end
@@ -68,7 +68,7 @@ describe Pest::Estimator::Frequency do
       end
     end
     
-    describe "entropy" do
+    describe "#entropy" do
       it "returns a Float" do
         @dist.entropy.should be_a(Float)
       end

@@ -10,7 +10,7 @@ describe Pest::DataSet do
   describe Pest::DataSet::ClassMethods do
     before(:each) { @class = TestClass }
 
-    describe "from" do
+    describe "::from" do
       before(:each) do
         @class.stub(:translators).and_return(Hash => :from_hash)
         @class.stub(:from_hash).and_return(Hash.new)
@@ -42,21 +42,21 @@ describe Pest::DataSet do
       end
     end
 
-    describe "translators" do
+    describe "::translators" do
       # Required
       it "raises an error if called from module" do
         lambda { @class.translators }.should raise_error(NotImplementedError)
       end
     end
     
-    describe "from_file" do
+    describe "::from_file" do
       # Required
       it "raises an error if called from module" do
         lambda { @class.from_file }.should raise_error(NotImplementedError)
       end
     end
     
-    describe "from_hash" do
+    describe "::from_hash" do
       # Required
       it "raises an error if called from module" do
         lambda { @class.from_hash }.should raise_error(NotImplementedError)
@@ -64,27 +64,27 @@ describe Pest::DataSet do
     end
   end
 
-  describe "variables" do
+  describe "#variables" do
     it "defaults to an empty list" do
       @instance.variables.should == {}
     end
   end
 
-  describe "to_hash" do
+  describe "#to_hash" do
     # Required
     it "raises an error if called from module" do
       lambda { @instance.to_hash }.should raise_error(NotImplementedError)
     end
   end
 
-  describe "save" do
+  describe "#save" do
     # Required
     it "raises an error if called from module" do
       lambda { @instance.save }.should raise_error(NotImplementedError)
     end
   end
 
-  describe "length" do
+  describe "#length" do
     # Required
     it "raises an error if called from module" do
       lambda { @instance.length }.should raise_error(NotImplementedError)

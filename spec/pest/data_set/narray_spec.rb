@@ -8,7 +8,7 @@ describe Pest::DataSet::NArray do
     @class = Pest::DataSet::NArray
   end
 
-  describe "self.translators" do
+  describe "::translators" do
     it "maps Pest::DataSet::Hash => from_hash" do
       @class.translators[Pest::DataSet::Hash].should == :from_hash
     end
@@ -22,7 +22,7 @@ describe Pest::DataSet::NArray do
     end
   end
 
-  describe "self.from_file" do
+  describe "::from_file" do
     before(:each) do
       @matrix = @class.from_hash @v1 => [1,2,3], @v2 => [4,5,6]
       @file = Tempfile.new('test')
@@ -42,7 +42,7 @@ describe Pest::DataSet::NArray do
     end
   end
 
-  describe "self.from_hash" do
+  describe "::from_hash" do
     before(:each) do
       @matrix = NArray.to_na [[4,5,6],[1,2,3]]
     end
@@ -60,7 +60,7 @@ describe Pest::DataSet::NArray do
     end
   end
 
-  describe "from_csv" do
+  describe "::from_csv" do
     before(:each) do
       @file = Tempfile.new('test_csv')
       CSV.open(@file.path, 'w') do |csv|
@@ -92,7 +92,7 @@ describe Pest::DataSet::NArray do
     end
   end
 
-  describe "to_hash" do
+  describe "#to_hash" do
     before(:each) do
       @instance = @class.from_hash :foo => [1,2,3], :bar => [4,5,6]
     end
@@ -106,7 +106,7 @@ describe Pest::DataSet::NArray do
     end
   end
 
-  describe "data_vectors" do
+  describe "#data_vectors" do
     before(:each) do
       @instance = @class.from_hash :foo => [1,2,3], :bar => [4,5,6]
     end
@@ -121,7 +121,7 @@ describe Pest::DataSet::NArray do
     end
   end
 
-  describe "save" do
+  describe "#save" do
     before(:each) do
       @file = Tempfile.new('test')
       @instance = @class.from_hash :foo => [1,2,3], :bar => [4,5,6]

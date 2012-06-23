@@ -14,7 +14,7 @@ describe Pest::Function::Probability do
     @instance.stub(:variables).and_return({:foo => @v1, :bar => @v2})
   end
 
-  describe "probability" do
+  describe "#probability" do
     it "returns a Builder" do
       @instance.probability.should be_a(Pest::Function::Probability::Builder)
     end
@@ -25,7 +25,7 @@ describe Pest::Function::Probability do
   end
 
   describe Pest::Function::Probability::Builder do
-    describe "new" do
+    describe "::new" do
       before(:each) { @builder = ProbabilityTestClass::Builder.new(@instance, [@v1, :bar]) }
 
       it "sets estimator" do
@@ -43,7 +43,7 @@ describe Pest::Function::Probability do
       it "constructs dataset if passed hash"
     end
 
-    describe "given" do
+    describe "#given" do
       before(:each) { @builder = ProbabilityTestClass::Builder.new(@instance, [:foo]) }
 
       it "sets givens" do
@@ -64,7 +64,7 @@ describe Pest::Function::Probability do
       it "raises error if passed hash with existing (non hash) dataset"
     end
 
-    describe "in" do
+    describe "#in" do
       it "sets data source" do
         data_set = double('DataSet')
         ProbabilityTestClass::Builder.new(@instance,[:foo]).in(data_set).data_source.should == data_set
@@ -73,7 +73,7 @@ describe Pest::Function::Probability do
       it "raises error if existing data source"
     end
 
-    describe "evaluate" do
+    describe "#evaluate" do
       it "generates dataset if not specified"
 
       it "gets probability of event" do

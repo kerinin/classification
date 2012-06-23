@@ -14,19 +14,19 @@ describe Pest::Estimator do
     @class = TestClass
   end
 
-  describe "new" do
+  describe "::new" do
     it "accepts a dataset" do
       @class.new(@data).data.should == @data
     end
   end
 
-  describe "variables" do
+  describe "#variables" do
     it "proxies data set" do
       @class.new(@data).variables.should == @data.variables
     end
   end
 
-  describe "estimates" do
+  describe "#estimates" do
     before(:each) do
       @v1 = Pest::Variable.new(:name => :foo)
       @v2 = Pest::Variable.new(:name => :bar)
@@ -58,8 +58,17 @@ describe Pest::Estimator do
   end
 
   describe Pest::Estimator::Distribution do
-    describe "probability" do
-      it "raises no implemented"
+    before(:each) do
+      @class = TestClass::Distribution
+      @estimator = TestClass.new
+      @estimator.stub(:variables).and_return({:foo => @v1, :bar => @v2})
+      @instance = @class.new(@estimator, @estimator.variables) 
+    end
+
+    describe "#probability" do
+      it "raises no implemented" do
+        expect { @instance.probability }.to raise_error(NotImplementedError)
+      end
     end
   end
 end

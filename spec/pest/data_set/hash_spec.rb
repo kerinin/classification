@@ -10,7 +10,7 @@ describe Pest::DataSet::Hash do
       @class = Pest::DataSet::Hash
     end
 
-    describe "self.translators" do
+    describe "::translators" do
       it "maps File => from_file" do
         @class.translators[File].should == :from_file
       end
@@ -24,7 +24,7 @@ describe Pest::DataSet::Hash do
       end
     end
 
-    describe "self.from_file" do
+    describe "::from_file" do
       before(:each) do
         file = File.open(__FILE__, 'r')
         File.stub(:open).with('foo', 'r').and_return(file)
@@ -56,13 +56,13 @@ describe Pest::DataSet::Hash do
     @instance = Pest::DataSet::Hash.new(@data)
   end
 
-  describe "to_hash" do
+  describe "#to_hash" do
     it "returns a hash" do
       @instance.to_hash.should == @data
     end
   end
 
-  describe "data_vectors" do
+  describe "#data_vectors" do
     it "returns an enumerable" do
       @instance.data_vectors.should be_a(Enumerable)
     end
@@ -72,7 +72,7 @@ describe Pest::DataSet::Hash do
     end
   end
 
-  describe "save" do
+  describe "#save" do
     before(:each) do
       @file = File.open(__FILE__, 'r')
       File.stub(:open).with('foo', 'w').and_return(@file)
@@ -95,7 +95,7 @@ describe Pest::DataSet::Hash do
     end
   end
 
-  describe "length" do
+  describe "#length" do
     before(:each) do
       @data = {:foo => [1,2,3], :bar => [3,4,5]}
       @instance = Pest::DataSet::Hash.new(@data)

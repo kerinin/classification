@@ -35,6 +35,10 @@ module Pest::Estimator
     def variable_array
       variables.to_a.sort
     end
+
+    def probability
+      raise NotImplementedError
+    end
   end
 
   class DistributionList < Hash

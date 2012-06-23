@@ -3,15 +3,7 @@ require 'spec_helper'
 describe Pest::Variable do
   before(:each) { @class = Pest::Variable }
 
-  describe "type" do
-    it "defaults to float" do
-      @class.new.type.should == Float
-    end
-      
-    it "allows [string,integer,float]"
-  end
-
-  describe "uuid" do
+  describe "#uuid" do
     it "is generated if not specified" do
       @class.new.uuid.should be_true
     end
@@ -21,31 +13,31 @@ describe Pest::Variable do
     end
   end
 
-  describe "name" do
+  describe "#name" do
     it "has it" do
       @class.new(:name => 'foo').name.should == 'foo'
     end
   end
 
-  describe "identifier" do
+  describe "#identifier" do
     before(:each) do
-      @instance = @class.new(:name => 'foo', :type => String, :uuid => 'bar')
+      @instance = @class.new(:name => 'foo', :uuid => 'bar')
     end
 
-    it "concatenates name:type:uuid" do
-      @instance.identifier.should == 'foo:String:bar'
+    it "concatenates name:uuid" do
+      @instance.identifier.should == 'foo:bar'
     end
 
     it "is aliased as serialize" do
-      @instance.serialize.should == 'foo:String:bar'
+      @instance.serialize.should == 'foo:bar'
     end
   end
 
-  describe "==" do
+  describe "#==" do
     before(:each) do
-      @one = @class.new(:name => 'foo', :type => String, :uuid => 'bar')
-      @two = @class.new(:name => 'foo', :type => String, :uuid => 'bar')
-      @three = @class.new(:name => 'foo', :type => String, :uuid => 'baz')
+      @one = @class.new(:name => 'foo', :uuid => 'bar')
+      @two = @class.new(:name => 'foo', :uuid => 'bar')
+      @three = @class.new(:name => 'foo', :uuid => 'baz')
     end
 
     it "returns true if same identifier" do
@@ -65,17 +57,13 @@ describe Pest::Variable do
     end
   end
 
-  describe "self.deserialize" do
+  describe "::deserialize" do
     before(:each) do
-      @instance = @class.deserialize('foo:String:4f9b5243-2e2e-4a90-8009-21079fad5855')
+      @instance = @class.deserialize('foo:4f9b5243-2e2e-4a90-8009-21079fad5855')
     end
 
     it "instantiates with name" do
       @instance.name.should == 'foo'
-    end
-
-    it "instantiates with type" do
-      @instance.type.should == String
     end
 
     it "instantiates with uuid" do

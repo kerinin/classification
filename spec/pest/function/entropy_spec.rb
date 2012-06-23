@@ -14,7 +14,7 @@ describe Pest::Function::Entropy do
     @instance.stub(:variables).and_return({:foo => @v1, :bar => @v2})
   end
 
-  describe "entropy" do
+  describe "#entropy" do
     it "returns a Builder" do
       @instance.entropy.should be_a(Pest::Function::Entropy::Builder)
     end
@@ -25,7 +25,7 @@ describe Pest::Function::Entropy do
   end
 
   describe Pest::Function::Entropy::Builder do
-    describe "new" do
+    describe "::new" do
       before(:each) { @builder = EntropyTestClass::Builder.new(@instance, [@v1, :bar]) }
 
       it "sets estimator" do
@@ -43,7 +43,7 @@ describe Pest::Function::Entropy do
       it "constructs dataset if passed hash"
     end
 
-    describe "given" do
+    describe "#given" do
       before(:each) { @builder = EntropyTestClass::Builder.new(@instance, [:foo]) }
 
       it "sets givens" do
@@ -64,7 +64,7 @@ describe Pest::Function::Entropy do
       it "raises error if passed hash with existing (non hash) dataset"
     end
 
-    describe "evaluate" do
+    describe "#evaluate" do
       it "generates dataset if not specified"
 
       it "gets entropy of event" do
