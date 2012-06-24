@@ -25,23 +25,6 @@ Gem::Specification.new do |s|
     "lib/classification.rb",
     "lib/classification/naive_bayes.rb",
     "lib/classification/version.rb",
-    "python/analysis.py",
-    "python/analysis.pyc",
-    "python/array_tools.py",
-    "python/array_tools.pyc",
-    "python/bayes_classifier.py",
-    "python/bayes_classifier.pyc",
-    "python/combined_classifier.py",
-    "python/combined_classifier.pyc",
-    "python/compare_performance.py",
-    "python/data.py",
-    "python/data.pyc",
-    "python/itembased_classifier.py",
-    "python/itembased_classifier.pyc",
-    "python/metric_analysis.py",
-    "python/parse_yaml_for_classifier.py",
-    "python/parse_yaml_for_itembased.py",
-    "python/subset_classifier.py",
     "spec/spec_helper.rb",
     "tasks/environment.rake",
     "tasks/frequency.rake",
@@ -59,29 +42,44 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<classification>, [">= 0"])
+      s.add_runtime_dependency(%q<pest>, [">= 0"])
       s.add_development_dependency(%q<jeweler>, [">= 0"])
       s.add_development_dependency(%q<rake>, [">= 0"])
       s.add_development_dependency(%q<pry>, [">= 0"])
       s.add_development_dependency(%q<rspec>, [">= 0"])
       s.add_development_dependency(%q<rake>, [">= 0"])
       s.add_development_dependency(%q<gnuplot>, [">= 0"])
+      s.add_development_dependency(%q<jeweler>, [">= 0"])
+      s.add_development_dependency(%q<rake>, [">= 0"])
+      s.add_development_dependency(%q<pry>, [">= 0"])
+      s.add_development_dependency(%q<rspec>, [">= 0"])
     else
       s.add_dependency(%q<classification>, [">= 0"])
+      s.add_dependency(%q<pest>, [">= 0"])
       s.add_dependency(%q<jeweler>, [">= 0"])
       s.add_dependency(%q<rake>, [">= 0"])
       s.add_dependency(%q<pry>, [">= 0"])
       s.add_dependency(%q<rspec>, [">= 0"])
       s.add_dependency(%q<rake>, [">= 0"])
       s.add_dependency(%q<gnuplot>, [">= 0"])
+      s.add_dependency(%q<jeweler>, [">= 0"])
+      s.add_dependency(%q<rake>, [">= 0"])
+      s.add_dependency(%q<pry>, [">= 0"])
+      s.add_dependency(%q<rspec>, [">= 0"])
     end
   else
     s.add_dependency(%q<classification>, [">= 0"])
+    s.add_dependency(%q<pest>, [">= 0"])
     s.add_dependency(%q<jeweler>, [">= 0"])
     s.add_dependency(%q<rake>, [">= 0"])
     s.add_dependency(%q<pry>, [">= 0"])
     s.add_dependency(%q<rspec>, [">= 0"])
     s.add_dependency(%q<rake>, [">= 0"])
     s.add_dependency(%q<gnuplot>, [">= 0"])
+    s.add_dependency(%q<jeweler>, [">= 0"])
+    s.add_dependency(%q<rake>, [">= 0"])
+    s.add_dependency(%q<pry>, [">= 0"])
+    s.add_dependency(%q<rspec>, [">= 0"])
   end
 end
 
