@@ -1,8 +1,6 @@
 source 'http://rubygems.org'
 
-gemspec
-
-gem "pest"
+gem "pest", :git => "git://github.com/kerinin/pest.git"
 
 group :development do
   gem "jeweler"

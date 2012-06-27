@@ -3,3 +3,4 @@ classifier_testing/*
 data/*
 .rbenv-version
 Gemfile.lock
+*.csv
