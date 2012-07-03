@@ -90,7 +90,7 @@ module Classification
 
         # Determine Pr(class_var) * Product(Pr(class_var, feature_vars))
         # Returns [n_features][n_data]
-        feature_vars[0..0].map do |feature_var|
+        feature_vars[0..-1].map do |feature_var|
           # Calculate the Pr(class_var | feature_var)
           # Returns [n_data]
           NVector[ estimator.batch_p(class_var).given(feature_var).in(data_with_class_value).evaluate ]
