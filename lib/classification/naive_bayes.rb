@@ -11,8 +11,9 @@ module Classification
 
         predicted = classifier.classify(data[i])
         actual = data[i].pick(variable).to_hash[data.variables[variable]]
+        puts [predicted,actual]
 
-        (0...l).to_a.each do |i|
+        (0...predicted.length).to_a.each do |i|
           if predicted[i] == actual[i]
             correct += 1
           end
@@ -31,6 +32,8 @@ module Classification
       correct = 0
       total = 0
       (0...k).to_a.each do |i|
+        this_correct = 0
+        this_total = 0
         left = i * l / k
         right = (i+1) * l / k
         train_subset = data.except(left, right)
@@ -40,16 +43,24 @@ module Classification
 
         predicted = classifier.classify(test_subset)
         actual = test_subset.pick(variable).to_hash[test_subset.variables[variable]]
+        print "\n"
+        print predicted
+        print "\n"
+        print actual
+        print "\n"
 
-        (0...l).to_a.each do |i|
+        (0...predicted.length).to_a.each do |i|
           if predicted[i] == actual[i]
-            correct += 1
+            this_correct += 1
           end
-          total += 1
+          this_total += 1
         end
-        print "."
+        correct += this_correct
+        total += this_total
+        print "%2.1f%%: %s/%s" % [100 * this_correct / this_total.to_f, this_correct, this_total]
       end
       print "\n"
+      puts "-----"
       $stdout.flush
       return correct / total.to_f
     end
