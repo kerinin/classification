@@ -18,11 +18,17 @@ namespace :naive_bayes do
       args.with_defaults :k => 2
       @paths = RakeHelpers.parse_path(args.path)
 
-      @paths.each do |path|
-        data = Pest::DataSet::NArray.from_csv(path)
-        performance = Classification::NaiveBayes.k_fold_performance(data, args.variable, args.k.to_i)
-        puts "%2.1f%% accuracy" % [100 * performance]
+      require 'ruby-prof'
+      result = RubyProf.profile do
+        @paths.each do |path|
+          data = Pest::DataSet::NArray.from_csv(path)
+          performance = Classification::NaiveBayes.k_fold_performance(data, args.variable, args.k.to_i)
+          puts "%2.1f%% accuracy" % [100 * performance]
+        end
       end
+
+      RubyProf::GraphHtmlPrinter.new(result).print(File.open('graph_html_profile.html', 'w'), :sort_method => :self_time)
+      RubyProf::FlatPrinter.new(result).print(STDOUT, :min_percent => 0.1, :sort_method => :self_time)
     end
   end
 end

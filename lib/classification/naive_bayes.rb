@@ -79,37 +79,57 @@ module Classification
     end
 
     def classify(test_data)
+      # Find unique values of class var
       unique_values = data.pick(class_var).to_a.flatten.uniq
 
-      # Determine the probability of each class
-      # Returns [n_classes][n_data]
-      class_probabilities = unique_values.map do |class_value|
-        data_with_class_value = test_data.merge Pest::DataSet::Hash.from_hash({
-            class_var => Array(class_value) * test_data.length
-          })
-
-        # Determine Pr(class_var) * Product(Pr(class_var, feature_vars))
-        # Returns [n_features][n_data]
-        feature_vars[0..-1].map do |feature_var|
-          # Calculate the Pr(class_var | feature_var)
-          # Returns [n_data]
-          NVector[ estimator.batch_p(class_var).given(feature_var).in(data_with_class_value).evaluate ]
-
-        end.inject(estimator.p(class_var => class_value).evaluate) do |joint, marginal|
-          # calculate the product of the Pr(class_var) and all Pr(class_var | feature_var)'s
-          # Returns [n_data]
-          joint * marginal
-        end
+      # Deternmine conditional probability of the class var given each
+      # of the feature vars
+      # [n_features][n_classes, n_data]
+      #
+      conditional_prs = feature_vars.map do |feature_var|
+        NArray[ unique_values.map do |class_value|
+          hypothesis = hypothesize(test_data, class_var => class_value)
+          conditional_probability(:given => feature_var, :in => hypothesis)
+        end ].reshape!(unique_values.length, test_data.length)
       end
 
-      # Determine the class labels with the highest probability
-      # Returns [n_data]
-      # RM NOTE: Ugly, but I'm trying to avoid assuming the data set defines #transpose
-      (0...test_data.length).to_a.map do |i|
-        class_probabilities.map do |class_probability_array|
-          class_probability_array.to_a[i]
-        end.each_with_index.max[1]
+      # Determine the marginal probability of each value of class var
+      # [n_classes]
+      #
+      class_probabilities = NArray[ unique_values.map {|v| estimator.p(class_var => v).evaluate } ]
+
+      # For each unique value, calculate the product of the marginal probability
+      # and the conditional probabilities given each feature var
+      # [n_classes, n_data]
+      #
+      class_scores = conditional_prs.inject(class_probabilities) do |memo, obj|
+        # Normalize so we don't diverge to 0/infty
+        raw = obj * memo
+        raw / raw.sum(1)
       end
+
+      # For each vector in test_data, return the class with the 
+      # highest score
+      # [n_data]
+      #
+      class_scores.to_a.map do |scores| 
+        scores.each_with_index.max[1]
+      end.map do |index|
+        unique_values[index]
+      end
+    end
+
+    def hypothesize(data_set, givens)
+      given_data = {}
+      givens.each_pair do |k,v|
+        given_data[k] = Array(v) * data_set.length
+      end
+
+      data_set.merge Pest::DataSet::Hash.from_hash(given_data)
+    end
+
+    def conditional_probability(args)
+      NArray[ estimator.batch_p(class_var).given(args[:given]).in(args[:in]).evaluate ]
     end
   end
 end
