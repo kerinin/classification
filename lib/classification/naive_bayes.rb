@@ -79,39 +79,67 @@ module Classification
     end
 
     def classify(test_data)
-      # Find unique values of class var
-      unique_values = data.pick(class_var).to_a.flatten.uniq
+      probabilities = conditional_probabilities(test_data)
 
-      # Deternmine conditional probability of the class var given each
-      # of the feature vars
-      # [n_features][n_classes, n_data]
-      #
-      conditional_prs = feature_vars.map do |feature_var|
+      # .02
+      scores = score_classes(probabilities)
+
+      # .06
+      class_from_score(scores)
+    end
+
+
+    # Private Methods
+
+    # Deternmine conditional probability of the class var given each
+    # of the feature vars
+    # [n_features][n_classes, n_data]
+    #
+    def conditional_probabilities(test_data)
+      hypotheses = hypotheses_for(test_data)
+
+      feature_vars.map do |feature_var|
         NArray[ unique_values.map do |class_value|
-          hypothesis = hypothesize(test_data, class_var => class_value)
-          conditional_probability(:given => feature_var, :in => hypothesis)
+          conditional_probability(:given => feature_var, :in => hypotheses[class_value])
         end ].reshape!(unique_values.length, test_data.length)
       end
+    end
 
+    def hypotheses_for(test_data)
+      return_hash = {}
+      unique_values.each {|v| return_hash[v] = hypothesize(test_data, class_var => v)}
+      return_hash
+    end
+
+    def unique_values
+      @unique_values ||= data.pick(class_var).to_a.flatten.uniq
+    end
+
+    def class_probabilities
       # Determine the marginal probability of each value of class var
       # [n_classes]
       #
-      class_probabilities = NArray[ unique_values.map {|v| estimator.p(class_var => v).evaluate } ]
+      @class_probabilities ||= NArray[ unique_values.map {|v| estimator.p(class_var => v).evaluate } ]
+    end
 
-      # For each unique value, calculate the product of the marginal probability
-      # and the conditional probabilities given each feature var
-      # [n_classes, n_data]
-      #
-      class_scores = conditional_prs.inject(class_probabilities) do |memo, obj|
+    # For each unique value, calculate the product of the marginal probability
+    # and the conditional probabilities given each feature var
+    # [n_classes, n_data]
+    #
+    def score_classes(conditional_probabilities) 
+      conditional_probabilities.inject(class_probabilities) do |memo, obj|
         # Normalize so we don't diverge to 0/infty
         raw = obj * memo
         raw / raw.sum(1)
       end
+    end
 
-      # For each vector in test_data, return the class with the 
-      # highest score
-      # [n_data]
-      #
+
+    # For each vector in class_scores, return the class with the 
+    # highest score
+    # [n_data]
+    #
+    def class_from_score(class_scores)
       class_scores.to_a.map do |scores| 
         scores.each_with_index.max[1]
       end.map do |index|

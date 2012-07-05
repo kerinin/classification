@@ -4,3 +4,5 @@ data/*
 .rbenv-version
 Gemfile.lock
 *.csv
+*.html
+*.png
